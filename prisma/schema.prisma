@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Twist {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  name         String
+  WinningVotes Vote[]   @relation("winningTwist")
+  LosingVotes  Vote[]   @relation("losingTwist")
+}
+
+model Vote {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  winningTwistId Int
+  winningTwist   Twist    @relation("winningTwist", fields: [winningTwistId], references: [id])
+  losingTwistId  Int
+  losingTwist    Twist    @relation("losingTwist", fields: [losingTwistId], references: [id])
+
+  @@unique([winningTwistId, losingTwistId])
+  @@index([winningTwistId], name: "winningTwistId")
+  @@index([losingTwistId], name: "losingTwistId")
+}

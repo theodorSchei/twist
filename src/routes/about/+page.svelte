@@ -1,1 +1,0 @@
-<h1>Learning svelte</h1>

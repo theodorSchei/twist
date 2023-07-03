@@ -1,4 +1,5 @@
 <script lang="ts">
+	import prisma from '$lib/prisma';
 	import LoadingSpinner from '../lib/LoadingSpinner.svelte';
 	import TwistDisplay from '../lib/TwistDisplay.svelte';
 	import { twists, type Twist } from '../lib/types/Twist';
@@ -20,11 +21,18 @@
 	let [twist1, twist2] = getRandomTwists();
 	let hasVoted = false;
 
-	const handleVote = (winner: Twist, loser: Twist) => {
+	const handleVote = async (winner: Twist, loser: Twist) => {
 		if (hasVoted) return;
 		hasVoted = true;
 
 		console.log(`Voted for ${winner.title} over ${loser.title}`);
+
+		await prisma.vote.create({
+			data: {
+				winningTwistId: winner.id,
+				losingTwistId: loser.id,
+			}
+		});
 
 		setTimeout(() => {
 			[twist1, twist2] = getRandomTwists();
@@ -33,7 +41,9 @@
 	};
 </script>
 
-<main class="flex h-full w-screen flex-col sm:flex-row grow items-center justify-center gap-4 text-white">
+<main
+	class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white sm:flex-row"
+>
 	<TwistDisplay twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
 
 	{#if hasVoted}

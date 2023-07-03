@@ -12,7 +12,7 @@
 		<div>
 			<a
 				class="group bg-gradient-to-br from-cyan-600 to-cyan-400 bg-clip-text text-2xl font-extrabold text-transparent"
-				href="/about"
+				href="/stats"
 				>Stats<span
 					class="block h-0.5 max-w-0 bg-gradient-to-br from-cyan-600 to-cyan-400 transition-all duration-300 group-hover:max-w-full"
 				/></a
