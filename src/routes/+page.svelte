@@ -33,7 +33,7 @@
 	};
 </script>
 
-<main class="flex h-full w-screen grow items-center justify-center gap-4 text-white">
+<main class="flex h-full w-screen flex-col sm:flex-row grow items-center justify-center gap-4 text-white">
 	<TwistDisplay twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
 
 	{#if hasVoted}

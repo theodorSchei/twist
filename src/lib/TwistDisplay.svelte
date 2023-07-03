@@ -8,7 +8,7 @@
 
 </script>
 
-<div class="flex h-full w-1/2 max-w-md flex-col items-center justify-center gap-8">
+<div class="flex h-full w-3/4  sm:w-1/2 max-w-md flex-col items-center justify-center md:p-8 md:gap-8 border border-stone-800 p-4 rounded-xl">
 	<img src={`/twists/${twist.name}_closed.png`} alt={`Bilde av twisten ${twist.title}`} />
 	<p class="text-2xl font-bold">{twist.title}</p>
 	<button
