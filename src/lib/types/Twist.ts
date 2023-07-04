@@ -82,7 +82,7 @@ export const twists: Twist[] = [
 		id: 11,
 		name: 'marsipan',
 		title: 'Marsipan',
-		funFacts: ['Finnes ikke noe fun facts om marsipan lol.']
+		funFacts: ['Finnes ikke noe morsomt med marsipan.']
 	},
 	{
 		id: 12,

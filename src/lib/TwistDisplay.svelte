@@ -1,15 +1,41 @@
-<script lang='ts'>
-	import type { Twist } from "./types/Twist";
+<script lang="ts">
+	import type { Twist } from './types/Twist';
 
 	export let twist: Twist;
 	export let otherTwist: Twist;
-	export let handleVote : (winner: Twist, loser: Twist) => void;
-	export let hasVoted : boolean;
-
+	export let handleVote: (winner: Twist, loser: Twist) => void;
+	export let hasVoted: boolean;
+	export let isLeft: boolean;
+	export let funFact: string | undefined;
 </script>
 
-<div class="flex h-full w-3/4  sm:w-1/2 max-w-md flex-col items-center justify-center md:p-8 md:gap-8 border border-stone-800 p-4 rounded-xl">
-	<img src={`/twists/${twist.name}.png`} alt={`Bilde av twist-biten ${twist.title}`} />
+<div
+	class="relative flex h-full w-3/4 max-w-md flex-col items-center justify-center gap-4 rounded-xl border sm:border-0 border-stone-800 p-4 sm:w-1/2 md:gap-8 md:p-8"
+>
+	{#if funFact}
+		{#if isLeft}
+			<p class="absolute -left-8 top-0 sm:-top-8 max-w-xs -rotate-6 sm:-rotate-12 text-sm lg:text-lg font-thin">
+				<span
+					class="bg-gradient-to-br from-pink-500 to-pink-400 bg-clip-text font-bold text-transparent"
+					>Fun-fact:
+				</span>
+				{funFact}
+			</p>
+		{:else}
+			<p class="absolute -right-8 top-0 sm:-top-8 max-w-xs rotate-6 sm:rotate-12 text-sm lg:text-lg font-thin">
+				<span
+					class="bg-gradient-to-br from-cyan-600 to-cyan-400 bg-clip-text font-bold text-transparent"
+					>Fun-fact:
+				</span>
+				{funFact}
+			</p>
+		{/if}
+	{/if}
+	<img
+		class="max-h-40"
+		src={`/twists/${twist.name}.png`}
+		alt={`Bilde av twist-biten ${twist.title}`}
+	/>
 	<p class="text-2xl font-bold">{twist.title}</p>
 	<button
 		on:click={() => handleVote(twist, otherTwist)}

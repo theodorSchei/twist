@@ -1,31 +1,36 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
-	//import prisma from '$lib/prisma';
 	import LoadingSpinner from '../lib/LoadingSpinner.svelte';
 	import TwistDisplay from '../lib/TwistDisplay.svelte';
 	import { twists, type Twist } from '../lib/types/Twist';
+	import { getRandomFunfacts } from '$lib/getRandomFunfacts';
 
 	const getRandomTwist = () => {
 		const randomIndex = Math.floor(Math.random() * twists.length);
 		return twists[randomIndex];
 	};
 
-	const getRandomTwists = () => {
-		console.log('Getting random twists');
-		const twist1 = getRandomTwist();
-		let twist2 = getRandomTwist();
-		while (twist1.id === twist2.id) {
-			twist2 = getRandomTwist();
-		}
-		return [twist1, twist2];
-	};
-
 	let twist1: Twist;
 	let twist2: Twist;
+	let twist1Funfact: string | undefined;
+	let twist2Funfact: string | undefined;
+	
+	const getRandomTwists = () => {
+		console.log('Getting random twists');
+		const random1 = getRandomTwist();
+		let random2 = getRandomTwist();
+		while (random1.id === random2.id) {
+			twist2 = getRandomTwist();
+		}
+		twist1 = random1;
+		twist2 = random2;
+		[twist1Funfact, twist2Funfact] = getRandomFunfacts(random1, random2);
+
+	};
+
 
 	onMount(() => {
-		[twist1, twist2] = getRandomTwists();
+		getRandomTwists();
 	});
 
 	let hasVoted = false;
@@ -52,17 +57,17 @@
 		await add(winner, loser);
 
 		setTimeout(() => {
-			[twist1, twist2] = getRandomTwists();
+			getRandomTwists();
 			hasVoted = false;
 		}, 1000);
 	};
 </script>
 
 <main
-	class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white sm:flex-row"
+	class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white sm:flex-row md:p-8"
 >
 	{#if twist1}
-		<TwistDisplay twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
+		<TwistDisplay funFact={twist1Funfact} isLeft={true} twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
 	{:else}
 		<LoadingSpinner />
 	{/if}
@@ -77,7 +82,7 @@
 	{/if}
 
 	{#if twist2}
-		<TwistDisplay twist={twist2} otherTwist={twist1} {handleVote} {hasVoted} />
+		<TwistDisplay funFact={twist2Funfact} isLeft={false} twist={twist2} otherTwist={twist1} {handleVote} {hasVoted} />
 	{:else}
 		<LoadingSpinner />
 	{/if}

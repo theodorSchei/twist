@@ -1,7 +1,7 @@
 <div role="status" class="flex h-16 w-16 items-center justify-center">
 	<svg
 		aria-hidden="true"
-		class="mr-2 h-8 w-8 animate-spin fill-pink-400 text-gray-200 dark:text-gray-600"
+		class="h-8 w-8 animate-spin fill-pink-400 text-gray-200 dark:text-gray-600"
 		viewBox="0 0 100 101"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
