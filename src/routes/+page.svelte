@@ -30,18 +30,26 @@
 
 	let hasVoted = false;
 
+	async function add(winner: Twist, loser: Twist) {
+		const winnerId = winner.id;
+		const loserId = loser.id;
+
+		const response = await fetch('/api/vote', {
+			method: 'POST',
+			body: JSON.stringify({ winnerId, loserId }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+
 	const handleVote = async (winner: Twist, loser: Twist) => {
 		if (hasVoted) return;
 		hasVoted = true;
 
 		console.log(`Voted for ${winner.title} over ${loser.title}`);
 
-		/*await prisma.vote.create({
-			data: {
-				winningTwistId: winner.id,
-				losingTwistId: loser.id,
-			}
-		});*/
+		await add(winner, loser);
 
 		setTimeout(() => {
 			[twist1, twist2] = getRandomTwists();

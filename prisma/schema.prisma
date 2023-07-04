@@ -29,7 +29,6 @@ model Vote {
   losingTwistId  Int
   losingTwist    Twist    @relation("losingTwist", fields: [losingTwistId], references: [id])
 
-  @@unique([winningTwistId, losingTwistId])
   @@index([winningTwistId], name: "winningTwistId")
   @@index([losingTwistId], name: "losingTwistId")
 }
