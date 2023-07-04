@@ -1,5 +1,7 @@
 <script lang="ts">
-	import prisma from '$lib/prisma';
+	import { onMount } from 'svelte';
+
+	//import prisma from '$lib/prisma';
 	import LoadingSpinner from '../lib/LoadingSpinner.svelte';
 	import TwistDisplay from '../lib/TwistDisplay.svelte';
 	import { twists, type Twist } from '../lib/types/Twist';
@@ -10,6 +12,7 @@
 	};
 
 	const getRandomTwists = () => {
+		console.log('Getting random twists');
 		const twist1 = getRandomTwist();
 		let twist2 = getRandomTwist();
 		while (twist1.id === twist2.id) {
@@ -18,7 +21,13 @@
 		return [twist1, twist2];
 	};
 
-	let [twist1, twist2] = getRandomTwists();
+	let twist1: Twist;
+	let twist2: Twist;
+
+	onMount(() => {
+		[twist1, twist2] = getRandomTwists();
+	});
+
 	let hasVoted = false;
 
 	const handleVote = async (winner: Twist, loser: Twist) => {
@@ -27,12 +36,12 @@
 
 		console.log(`Voted for ${winner.title} over ${loser.title}`);
 
-		await prisma.vote.create({
+		/*await prisma.vote.create({
 			data: {
 				winningTwistId: winner.id,
 				losingTwistId: loser.id,
 			}
-		});
+		});*/
 
 		setTimeout(() => {
 			[twist1, twist2] = getRandomTwists();
@@ -44,7 +53,11 @@
 <main
 	class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white sm:flex-row"
 >
-	<TwistDisplay twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
+	{#if twist1}
+		<TwistDisplay twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
+	{:else}
+		<LoadingSpinner />
+	{/if}
 
 	{#if hasVoted}
 		<LoadingSpinner />
@@ -55,5 +68,9 @@
 		>
 	{/if}
 
-	<TwistDisplay twist={twist2} otherTwist={twist1} {handleVote} {hasVoted} />
+	{#if twist2}
+		<TwistDisplay twist={twist2} otherTwist={twist1} {handleVote} {hasVoted} />
+	{:else}
+		<LoadingSpinner />
+	{/if}
 </main>
