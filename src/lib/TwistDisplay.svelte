@@ -14,7 +14,7 @@
 >
 	{#if funFact}
 		{#if isLeft}
-			<p class="absolute -left-8 top-0 sm:-top-8 max-w-xs -rotate-6 sm:-rotate-12 text-sm lg:text-lg font-thin">
+			<p class="hidden sm:inline absolute lg:-left-8 top-0 sm:-top-8 max-w-xs -rotate-6 sm:-rotate-12 text-sm lg:text-lg font-thin">
 				<span
 					class="bg-gradient-to-br from-pink-500 to-pink-400 bg-clip-text font-bold text-transparent"
 					>Fun-fact:
@@ -22,7 +22,7 @@
 				{funFact}
 			</p>
 		{:else}
-			<p class="absolute -right-8 top-0 sm:-top-8 max-w-xs rotate-6 sm:rotate-12 text-sm lg:text-lg font-thin">
+			<p class="hidden sm:inline absolute lg:-right-8 top-0 sm:-top-8 max-w-xs rotate-6 sm:rotate-12 text-sm lg:text-lg font-thin">
 				<span
 					class="bg-gradient-to-br from-cyan-600 to-cyan-400 bg-clip-text font-bold text-transparent"
 					>Fun-fact:

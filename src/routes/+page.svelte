@@ -14,7 +14,7 @@
 	let twist2: Twist;
 	let twist1Funfact: string | undefined;
 	let twist2Funfact: string | undefined;
-	
+
 	const getRandomTwists = () => {
 		console.log('Getting random twists');
 		const random1 = getRandomTwist();
@@ -25,9 +25,7 @@
 		twist1 = random1;
 		twist2 = random2;
 		[twist1Funfact, twist2Funfact] = getRandomFunfacts(random1, random2);
-
 	};
-
 
 	onMount(() => {
 		getRandomTwists();
@@ -35,7 +33,7 @@
 
 	let hasVoted = false;
 
-	async function add(winner: Twist, loser: Twist) {
+	async function postVote(winner: Twist, loser: Twist) {
 		const winnerId = winner.id;
 		const loserId = loser.id;
 
@@ -54,36 +52,70 @@
 
 		console.log(`Voted for ${winner.title} over ${loser.title}`);
 
-		await add(winner, loser);
+		await postVote(winner, loser);
 
 		setTimeout(() => {
 			getRandomTwists();
 			hasVoted = false;
 		}, 1000);
 	};
+
+	const handleCantDecide = () => {
+		console.log('Cant decide');
+		if (hasVoted) return;
+		hasVoted = true;
+
+		setTimeout(() => {
+			getRandomTwists();
+			hasVoted = false;
+		}, 500);
+	};
 </script>
 
 <main
-	class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white sm:flex-row md:p-8"
+	class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white p-4 md:p-8"
 >
-	{#if twist1}
-		<TwistDisplay funFact={twist1Funfact} isLeft={true} twist={twist1} otherTwist={twist2} {handleVote} {hasVoted} />
-	{:else}
-		<LoadingSpinner />
-	{/if}
+	<div
+		class="flex h-full w-screen grow flex-col items-center justify-center gap-4 text-white sm:flex-row"
+	>
+		{#if twist1}
+			<TwistDisplay
+				funFact={twist1Funfact}
+				isLeft={true}
+				twist={twist1}
+				otherTwist={twist2}
+				{handleVote}
+				{hasVoted}
+			/>
+		{:else}
+			<LoadingSpinner />
+		{/if}
 
-	{#if hasVoted}
-		<LoadingSpinner />
-	{:else}
-		<span
-			class="flex h-16 w-16 items-center justify-center rounded-full text-center text-2xl font-extrabold underline"
-			>vs</span
+		{#if hasVoted}
+			<LoadingSpinner />
+		{:else}
+			<span
+				class="flex h-16 w-16 items-center justify-center rounded-full text-center text-2xl font-extrabold underline"
+				>vs</span
+			>
+		{/if}
+
+		{#if twist2}
+			<TwistDisplay
+				funFact={twist2Funfact}
+				isLeft={false}
+				twist={twist2}
+				otherTwist={twist1}
+				{handleVote}
+				{hasVoted}
+			/>
+		{:else}
+			<LoadingSpinner />
+		{/if}
+	</div>
+	<div>
+		<button on:click={() => handleCantDecide()} class="p-4 text-stone-400"
+			>Klarer ikke bestemme meg...</button
 		>
-	{/if}
-
-	{#if twist2}
-		<TwistDisplay funFact={twist2Funfact} isLeft={false} twist={twist2} otherTwist={twist1} {handleVote} {hasVoted} />
-	{:else}
-		<LoadingSpinner />
-	{/if}
+	</div>
 </main>

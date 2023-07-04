@@ -4,7 +4,7 @@
 	>
 		<div>
 			<a
-				class="group bg-gradient-to-br from-pink-500 to-pink-400 bg-clip-text text-transparent no-underline hover:underline"
+				class="group bg-gradient-to-br from-pink-500 to-pink-400 bg-clip-text text-transparent"
 				href="/"
 				>Stem <span class="hidden sm:inline">på din favoritt</span><span
 					class="block h-0.5 max-w-0 bg-gradient-to-br from-pink-500 to-pink-400 transition-all duration-300 group-hover:max-w-full"

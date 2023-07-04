@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Vote } from '@prisma/client';
-	import { twists } from './types/Twist';
+	import { twists } from '../types/Twist';
+	import StatsContainer from './StatsContainer.svelte';
 
 	export let votes: any[];
 </script>
 
-<div>
-	<h1 class="text-xl">Siste {votes.length} stemmer</h1>
+<StatsContainer title={`Siste ${votes.length} stemmer`} blueTitle={false}>
 	<ul>
 		{#each votes as { id, winningTwist, losingTwist, createdAt }}
 			<li>
@@ -18,4 +18,4 @@
 			</li>
 		{/each}
 	</ul>
-</div>
+</StatsContainer>
